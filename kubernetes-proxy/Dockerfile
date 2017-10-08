@@ -1,4 +1,4 @@
-FROM kubernetes-node:rawhide
+FROM kubernetes-node
 MAINTAINER "Jason Brooks" <jbrooks@redhat.com>
 
 ENV container=docker
@@ -11,7 +11,7 @@ LABEL bzcomponent="$NAME" \
         architecture="$ARCH" \
         atomic.type='system'
 
-RUN dnf install -y iptables conntrack-tools && dnf clean all
+RUN dnf install -y iptables conntrack-tools kube-proxy && dnf clean all
 
 LABEL RUN /usr/bin/docker run -d --privileged --net=host 
 
@@ -19,7 +19,8 @@ COPY launch.sh /usr/bin/kube-proxy-docker.sh
 
 COPY service.template config.json.template /exports/
 
-RUN mkdir -p /exports/hostfs/etc/kubernetes && cp /etc/kubernetes/{config,proxy} /exports/hostfs/etc/kubernetes
+RUN mkdir -p /exports/hostfs/etc/kubernetes && 
+COPY config proxy  /exports/hostfs/etc/kubernetes/
 
 ENTRYPOINT ["/usr/bin/kube-proxy-docker.sh"]
 

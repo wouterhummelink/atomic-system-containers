@@ -360,6 +360,38 @@
           },
           {
             "type": "bind",
+            "source": "/var/lib/docker",
+            "destination": "/var/lib/docker",
+            "options": [
+                "rbind",
+                "rslave",
+                "rw",
+                "mode=755"
+             ]
+          },
+          { "type": "bind",
+            "source": "/opt/cni",
+            "destination": "/opt/cni",
+            "options": [
+                "rbind",
+                "rslave",
+                "rw",
+                "mode=755"
+             ]
+          },
+          { "type": "bind",
+            "source": "/etc/cni",
+            "destination": "/etc/cni",
+            "options": [
+                "rbind",
+                "rprivate",
+                "ro",
+                "rnoexec"
+             ]
+          },
+
+          {
+            "type": "bind",
             "source": "/var/log",
             "destination": "/var/log",
             "options": [

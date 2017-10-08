@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:rawhide
+FROM registry.fedoraproject.org/fedora:26
 MAINTAINER "Jason Brooks" <jbrooks@redhat.com>
 
 ENV NAME=kubernetes-node VERSION=0 RELEASE=0 ARCH=x86_64
@@ -9,4 +9,5 @@ LABEL bzcomponent="$NAME" \
         architecture="$ARCH"
 
 RUN dnf -y update && dnf clean all
-RUN dnf install -y kubernetes-node findutils && dnf clean all
+ADD kubernetes.repo /etc/yum.repos.d/kubernetes.repo
+RUN dnf install -y kubelet kubectl kubeadm kubernetes-cni findutils && dnf clean all

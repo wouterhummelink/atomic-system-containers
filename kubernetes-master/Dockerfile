@@ -9,5 +9,6 @@ LABEL bzcomponent="$NAME" \
         architecture="$ARCH"
 
 RUN dnf -y update && dnf clean all
+ADD kubernetes.repo /etc/yum.repos.d/kubernetes.repo
 RUN groupadd -g 994 kube && useradd -u 996 -g 994 kube
 RUN dnf install -y kubernetes-master findutils && dnf clean all

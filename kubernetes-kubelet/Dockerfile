@@ -1,4 +1,4 @@
-FROM kubernetes-node:rawhide
+FROM kubernetes-node
 MAINTAINER "Jason Brooks" <jbrooks@redhat.com>
 
 ENV container=docker
@@ -20,6 +20,7 @@ COPY launch.sh /usr/bin/kubelet-docker.sh
 
 COPY service.template config.json.template /exports/
 
-RUN mkdir -p /exports/hostfs/etc/kubernetes && cp /etc/kubernetes/{config,kubelet} /exports/hostfs/etc/kubernetes
+RUN mkdir -p /exports/hostfs/etc/kubernetes && chmod 755 /usr/bin/kubelet-docker.sh 
+ADD kubelet config /exports/hostfs/etc/kubernetes/
 
 ENTRYPOINT ["/usr/bin/kubelet-docker.sh"]
